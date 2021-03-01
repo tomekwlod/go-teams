@@ -1,6 +1,9 @@
 package goteams
 
 import (
+	"errors"
+	"strings"
+
 	goteamsnotify "github.com/atc0005/go-teams-notify/v2"
 )
 
@@ -19,6 +22,15 @@ func New(webhookURL, title, description string) message {
 }
 
 func (m message) Send() error {
+
+	if m.title == "" {
+
+		return errors.New("To send a message you need to provide a title")
+	}
+	if m.description == "" {
+
+		return errors.New("To send a message you need to provide a description")
+	}
 
 	// init the client
 	mstClient := goteamsnotify.NewClient()
@@ -53,12 +65,37 @@ func (m message) Send() error {
 
 func (m *message) SetTheme(hash string) {
 
-	//
-	// validation here!!
-	//
-	// also not codes but types: error,success,info,warning,itp
-	//
-	//
+	color := ""
 
-	m.themeColor = hash
+	switch strings.ToLower(hash) {
+
+	case "error":
+	case "fail":
+	case "red":
+
+		color = "#E42828"
+		break
+
+	case "warning":
+	case "orange":
+
+		color = "#DF813D"
+		break
+
+	case "info":
+	case "success":
+	case "ok":
+	case "green":
+
+		color = "#56DF3D"
+		break
+
+	default:
+
+		// maybe we should actually check if the hash is truly a hash?
+		color = hash
+		break
+	}
+
+	m.themeColor = color
 }
