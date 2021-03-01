@@ -44,6 +44,7 @@ func (m message) Send() error {
 
 		msgCard.ThemeColor = "#56DF3D" // green  - info
 		// msgCard.ThemeColor = "#DF813D" // orange - warning
+		// msgCard.ThemeColor = "#E42828" // red - error
 	}
 
 	// send
